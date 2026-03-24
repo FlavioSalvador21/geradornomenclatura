@@ -1,14 +1,9 @@
 import streamlit as st
 
 # Configuração da página
-st.set_page_config(page_title="Gerador de Nomenclatura v10.3", layout="wide")
+st.set_page_config(page_title="Gerador de Nomenclatura v10.4", layout="wide")
 
-st.title("🏗️ Gerador de Nomenclatura v10.3")
-
-# Função para resetar os campos
-def limpar_formulario():
-    for key in st.session_state.keys():
-        st.session_state[key] = "" if isinstance(st.session_state[key], str) else 1
+st.title("🏗️ Gerador de Nomenclatura v10.4")
 
 # Inicialização de estados para o botão limpar funcionar corretamente
 if 'semana' not in st.session_state: st.session_state.semana = 1
@@ -38,7 +33,8 @@ with st.container():
     # --- LINHA 3 (Campos 7, 8, 9) ---
     col7, col8, col9 = st.columns(3)
     with col7:
-        st.text_input("7. Produto", value="POLI", disabled=True)
+        produto = "POLI"
+        st.text_input("7. Produto", value=produto, disabled=True)
     with col8:
         linguagem = st.selectbox("8. Linguagem", ["BR", "ES"], key="lang_input")
     with col9:
@@ -66,17 +62,25 @@ with c_btn1:
     gerar = st.button("Gerar Nome ✅", type="primary")
 with c_btn2:
     if st.button("Limpar Tudo 🗑️"):
-        st.rerun() # Forma mais limpa de resetar todos os widgets no Streamlit
+        st.rerun() 
 
 # --- RESULTADO FINAL ---
 if gerar:
     if not copy or not editor or not conceito:
         st.error("⚠️ Por favor, preencha os campos de Copy, Editor e Conceito.")
     else:
+        # Ordem: SEMANA_COPY_EDITOR_CONCEITO_VERSAO_MIDIA_POLI_LINGUAGEM_TIPO_FORMATO
         tags = [
-            semana_formatada, copy, editor, conceito, 
-            versao_formatada, tipo_midia, "POLI", 
-            linguagem, formato, tipo_anuncio_sigla
+            semana_formatada, 
+            copy, 
+            editor, 
+            conceito, 
+            versao_formatada, 
+            tipo_midia, 
+            produto, 
+            linguagem, 
+            tipo_anuncio_sigla, 
+            formato
         ]
         
         resultado_base = "_".join(tags)
@@ -85,8 +89,7 @@ if gerar:
         st.success("Nomenclatura criada com sucesso!")
         st.code(resultado_final, language=None)
         
-        # Feedback visual opcional
         if len(resultado_final) > 100:
-            st.warning("Nota: O nome está bem longo. Verifique se o destino (ex: Facebook Ads) aceita esse comprimento.")
+            st.warning("Nota: O nome está bem longo. Verifique se o destino aceita esse comprimento.")
 
-st.caption("v10.3 | Layout 3x3 | Descrição Livre")
+st.caption("v10.4 | Ordem: Midia > Poli > Lang > Tipo > Formato")
