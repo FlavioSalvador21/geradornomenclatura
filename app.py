@@ -38,7 +38,8 @@ with st.container():
     with col8:
         linguagem = st.selectbox("8. Linguagem", ["BR", "ES"], key="lang_input")
     with col9:
-        formato = st.selectbox("9. Formato", ["V", "H"], key="formato_input")
+        # ALTERAÇÃO FEITA AQUI
+        formato = st.selectbox("9. Formato", ["V", "H", "9X16", "4X5", "1X1"], key="formato_input")
 
     # --- LINHA 4 (Campo 10) ---
     mapa_anuncio = {
